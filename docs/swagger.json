@@ -1,0 +1,153 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "REST API for Template API API",
+        "title": "Template API API",
+        "termsOfService": "http://swagger.io/terms/",
+        "contact": {
+            "name": "API Support",
+            "url": "http://www.swagger.io/support",
+            "email": "support@swagger.io"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        },
+        "version": "0.1.0"
+    },
+    "basePath": "/",
+    "paths": {
+        "/": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "index"
+                ],
+                "summary": "This action returns list of values from data store",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.PaginatedModel"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseError"
+                        }
+                    }
+                }
+            }
+        },
+        "/health/": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "health"
+                ],
+                "summary": "checks if all service dependecies are working properly",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/flow.VM"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseError"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "flow.VM": {
+            "type": "object",
+            "additionalProperties": true
+        },
+        "models.PaginatedModel": {
+            "type": "object",
+            "properties": {
+                "paginator": {
+                    "type": "object",
+                    "$ref": "#/definitions/paging.Paginator"
+                },
+                "results": {
+                    "type": "object"
+                }
+            }
+        },
+        "models.ResponseError": {
+            "type": "object",
+            "properties": {
+                "cause": {
+                    "type": "string"
+                },
+                "code": {
+                    "type": "integer"
+                },
+                "message": {
+                    "type": "string"
+                },
+                "stack": {
+                    "type": "string"
+                },
+                "validation": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "paging.Paginator": {
+            "type": "object",
+            "properties": {
+                "current_entries_size": {
+                    "description": "Total records returns, will be \u003c= PerPage",
+                    "type": "integer"
+                },
+                "filter": {
+                    "description": "Filter",
+                    "type": "string"
+                },
+                "offset": {
+                    "description": "Page * PerPage (ex: 2 * 20, Offset == 40)",
+                    "type": "integer"
+                },
+                "order_by": {
+                    "description": "OrderBy field",
+                    "type": "string"
+                },
+                "order_dir": {
+                    "description": "Order Direction",
+                    "type": "string"
+                },
+                "page": {
+                    "description": "Current page you're on",
+                    "type": "integer"
+                },
+                "per_page": {
+                    "description": "Number of results you want per page",
+                    "type": "integer"
+                },
+                "total_entries_size": {
+                    "description": "Total potential records matching the query",
+                    "type": "integer"
+                },
+                "total_pages": {
+                    "description": "Total pages",
+                    "type": "integer"
+                }
+            }
+        }
+    }
+}

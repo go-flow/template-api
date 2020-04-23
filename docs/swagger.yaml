@@ -1,0 +1,104 @@
+basePath: /
+definitions:
+  flow.VM:
+    additionalProperties: true
+    type: object
+  models.PaginatedModel:
+    properties:
+      paginator:
+        $ref: '#/definitions/paging.Paginator'
+        type: object
+      results:
+        type: object
+    type: object
+  models.ResponseError:
+    properties:
+      cause:
+        type: string
+      code:
+        type: integer
+      message:
+        type: string
+      stack:
+        type: string
+      validation:
+        additionalProperties:
+          type: string
+        type: object
+    type: object
+  paging.Paginator:
+    properties:
+      current_entries_size:
+        description: Total records returns, will be <= PerPage
+        type: integer
+      filter:
+        description: Filter
+        type: string
+      offset:
+        description: 'Page * PerPage (ex: 2 * 20, Offset == 40)'
+        type: integer
+      order_by:
+        description: OrderBy field
+        type: string
+      order_dir:
+        description: Order Direction
+        type: string
+      page:
+        description: Current page you're on
+        type: integer
+      per_page:
+        description: Number of results you want per page
+        type: integer
+      total_entries_size:
+        description: Total potential records matching the query
+        type: integer
+      total_pages:
+        description: Total pages
+        type: integer
+    type: object
+info:
+  contact:
+    email: support@swagger.io
+    name: API Support
+    url: http://www.swagger.io/support
+  description: REST API for Template API API
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  title: Template API API
+  version: 0.1.0
+paths:
+  /:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.PaginatedModel'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+      summary: This action returns list of values from data store
+      tags:
+      - index
+  /health/:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/flow.VM'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+      summary: checks if all service dependecies are working properly
+      tags:
+      - health
+swagger: "2.0"

@@ -1,0 +1,11 @@
+version: "3.3"
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: template-api
+    command: /bin/sh -c "/usr/api"
+    ports:
+      - "80:5000"
+    env_file: .env

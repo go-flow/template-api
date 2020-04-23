@@ -16,8 +16,7 @@ func Init(app *flow.App) {
 
 	// Register Controller to Flow application
 	app.RegisterController(new(IndexController))
-	app.RegisterController(new(ValuesController))
-	app.RegisterController(new(V2ValuesController))
+	app.RegisterController(new(UsersController))
 
 	if app.Env == "development" {
 		//init Swagger

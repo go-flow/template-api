@@ -4,5 +4,5 @@ import "github.com/go-flow/flow"
 
 // Init initializes project repositories
 func Init(app *flow.App) {
-	app.Register(NewValuesRepository(app))
+	app.Register(NewUserRepository(app))
 }

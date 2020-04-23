@@ -77,12 +77,12 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/models.PaginatedModel'
+            $ref: '#/definitions/flow.VM'
         "400":
           description: Bad Request
           schema:
             $ref: '#/definitions/models.ResponseError'
-      summary: This action returns list of values from data store
+      summary: This action does not do anything special now.
       tags:
       - index
   /health/:
@@ -101,4 +101,21 @@ paths:
       summary: checks if all service dependecies are working properly
       tags:
       - health
+  /users/:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.PaginatedModel'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+      summary: This action returns list of users from data store
+      tags:
+      - users
+      - index
 swagger: "2.0"

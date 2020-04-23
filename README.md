@@ -29,7 +29,7 @@ Run application from source
 
 ```
 cd <project_name>
-go run  cmd/template-api/main.go
+go run  cmd/api/main.go
 ```
 
 build docker image
@@ -66,6 +66,10 @@ this command will run all services in docker and build development builds for ev
 | -------------------------------| -------- | ------------- | ---------------------------------------------- |
 | ENV                            | NO       | production    | indicates in which environment app is running  |
 | LOG_LEVEL                      | NO       | error         | logging level                                  |
+| DB_DEV_CONNECTION              | YES      | -             | Database connection string for DEV environment |
+| DB_TEST_CONNECTION             | YES      | -             | Database connection for TEST environment       |
+| DB_PRODUCTION_CONNECTION       | YES      | -             | Database connection for PRODUCTION environment |
+
 
 
 ## Project structure
@@ -76,7 +80,7 @@ The project ships with a directory structure like:
 |
 |---- .github                           # git related templates and script needed for the project
 |---- business                          # project business package
-|     |---- values_business.go          # values business logic
+|     |---- user_business.go            # user business logic
 |     |---- init.go                     # business initialization
 |---- cmd                               # project commands holder
 |     |---- api                         # api  cli command package
@@ -85,8 +89,7 @@ The project ships with a directory structure like:
 |     |---- config.go                   # configuration logic
 |---- controllers                       # project controllers package
 |     |---- base_controller.go          # base controller extended by all other controllers, contains per controller middlewares & helper methods
-|     |---- values_controller.go        # values controller handles values HTTP request & Response
-|     |---- v2_values_controller.go     # version 2 values controller handles values HTTP request & Response
+|     |---- users_controller.go         # users controller handles values HTTP request & Response
 |     |---- index_controller.go         # index controller
 |     |---- init.go                     # controllers initialization
 |---- docs                              # project related documentation
@@ -96,19 +99,20 @@ The project ships with a directory structure like:
 |---- kube                              # Kubernetes related configuration files
 |---- middlewares                       # middlewares package
 |---- models                            # models package
-|     |---- value.go                    # model describing evaluated content
 |     |---- paginated_model.go          # model describing paginated model response
 |     |---- response_error.go           # model returned in case of an error
 |     |---- response.go                 # model returned in case of a successful operation
+|     |---- user.go                     # model describing user record
 |---- pkg                               # project libraries package
 |     |---- paging                      # package used for handling paging, sorting & filtering
 |     |---- swagger                     # package used generating swagger documentation
+|     |---- cors                        # package used for handling CORS
 |---- repositories                      # repositories package
 |     |---- init.go                     # repositories initialization
-|     |---- values_repository.go        # values repository
+|     |---- user_repository.go          # user repository handling database communication for user record
 |---- services                          # services package
 |     |---- init.go                     # services initialization
-|     |---- values_service.go           # values service 
+|     |---- user_service.go             # user service defines set of available operations aroud Users model
 |---- CODE_OF_CONDUCT.md                # Contributor Covenant Code of Conduct
 |---- CONTRIBUTING.md                   # Contribution guidelines
 |---- docker-compose.yml                # docker-compose configuration file

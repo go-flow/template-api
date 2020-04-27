@@ -3,6 +3,7 @@ GO ?= go
 GOFMT ?= gofmt "-s"
 PACKAGES ?= $(shell $(GO) list ./... | grep -v /vendor/)
 GOFILES := find . -name "*.go" -type f -not -path "./vendor/*"
+
 COVERFILE := coverage.txt
 
 .PHONY: deps

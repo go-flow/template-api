@@ -1,8 +1,7 @@
-package user
+package repositories
 
 import (
 	"database/sql"
-	"database/sql/driver"
 	"regexp"
 	"testing"
 	"time"
@@ -18,22 +17,22 @@ import (
 	"github.com/stretchr/testify/suite"
 )
 
-// RepositorySuite represents test suite for UserRepository interface
-type RepositorySuite struct {
+// UserRepositorySuite represents test suite for UserRepository interface
+type UserRepositorySuite struct {
 	suite.Suite
 	DB   db.Store
 	mock sqlmock.Sqlmock
 
-	repository *Repository
+	repository UserRepository
 }
 
-//TestRepositorySuite is ure repository test suite runner
-func TestRepositorySuite(t *testing.T) {
-	suite.Run(t, new(RepositorySuite))
+//TestUserRepositorySuite is ure repository test suite runner
+func TestUserRepositorySuite(t *testing.T) {
+	suite.Run(t, new(UserRepositorySuite))
 }
 
 // SetupSuite configures suite for unit testing
-func (s *RepositorySuite) SetupSuite() {
+func (s *UserRepositorySuite) SetupSuite() {
 	var (
 		db  *sql.DB
 		err error
@@ -47,17 +46,17 @@ func (s *RepositorySuite) SetupSuite() {
 
 	//s.DB.LogMode(true)
 
-	s.repository = &Repository{
+	s.repository = &userRepository{
 		Store: s.DB,
 	}
 }
 
 // AfterTest ensures that all Test Suite expectations were met
-func (s *RepositorySuite) AfterTest(_, _ string) {
+func (s *UserRepositorySuite) AfterTest(_, _ string) {
 	require.NoError(s.T(), s.mock.ExpectationsWereMet())
 }
 
-func (s *RepositorySuite) Test_GetByID() {
+func (s *UserRepositorySuite) Test_GetByID() {
 
 	insertTime := time.Now()
 	rows := sqlmock.NewRows([]string{"id", "first_name", "last_name", "profile_image", "email", "is_email_verified", "bio", "phone_number", "is_phone_verified", "country", "state", "area", "city", "address", "post_code", "is_active", "birth_date", "tos_accepted", "invited_by_user_id", "created_at", "updated_at", "deleted_at"}).
@@ -98,7 +97,7 @@ func (s *RepositorySuite) Test_GetByID() {
 	assert.Nil(s.T(), user.DeletedAt, "Expected user.DeletedAt to be `nil` got %v", user.DeletedAt)
 }
 
-func (s *RepositorySuite) Test_GetByEmail() {
+func (s *UserRepositorySuite) Test_GetByEmail() {
 
 	insertTime := time.Now()
 	rows := sqlmock.NewRows([]string{"id", "first_name", "last_name", "profile_image", "email", "is_email_verified", "bio", "phone_number", "is_phone_verified", "country", "state", "area", "city", "address", "post_code", "is_active", "birth_date", "tos_accepted", "invited_by_user_id", "created_at", "updated_at", "deleted_at"}).
@@ -139,7 +138,7 @@ func (s *RepositorySuite) Test_GetByEmail() {
 	assert.Nil(s.T(), user.DeletedAt, "Expected user.DeletedAt to be `nil` got %v", user.DeletedAt)
 }
 
-func (s *RepositorySuite) Test_GetAll() {
+func (s *UserRepositorySuite) Test_GetAll() {
 
 	insertTime := time.Now()
 	rows := sqlmock.NewRows([]string{"id", "first_name", "last_name", "profile_image", "email", "is_email_verified", "bio", "phone_number", "is_phone_verified", "country", "state", "area", "city", "address", "post_code", "is_active", "birth_date", "tos_accepted", "invited_by_user_id", "created_at", "updated_at", "deleted_at"}).
@@ -198,7 +197,7 @@ func (s *RepositorySuite) Test_GetAll() {
 	assert.Nil(s.T(), user.DeletedAt, "Expected user.DeletedAt to be `nil` got %v", user.DeletedAt)
 }
 
-func (s *RepositorySuite) Test_Create() {
+func (s *UserRepositorySuite) Test_Create() {
 	insertTime := time.Now()
 	// prepare model
 	user := &models.User{
@@ -267,7 +266,7 @@ func (s *RepositorySuite) Test_Create() {
 	assert.Nil(s.T(), user.DeletedAt, "Expected user.DeletedAt to be `nil` got %v", user.DeletedAt)
 }
 
-func (s *RepositorySuite) Test_Update() {
+func (s *UserRepositorySuite) Test_Update() {
 	// prepare model
 	user := &models.User{
 		ID:        uint64(1),
@@ -338,7 +337,7 @@ func (s *RepositorySuite) Test_Update() {
 	assert.Nil(s.T(), user.DeletedAt, "Expected user.DeletedAt to be `nil` got %v", user.DeletedAt)
 }
 
-func (s *RepositorySuite) Test_Delete() {
+func (s *UserRepositorySuite) Test_Delete() {
 	// prepare model
 	user := &models.User{
 		ID:        uint64(1),
@@ -363,13 +362,4 @@ func (s *RepositorySuite) Test_Delete() {
 	if err != nil {
 		s.Errorf(err, "unable to create user")
 	}
-}
-
-// AnyTime used to mock time object
-type AnyTime struct{}
-
-// Match satisfies sqlmock.Argument interface
-func (a AnyTime) Match(v driver.Value) bool {
-	_, ok := v.(time.Time)
-	return ok
 }

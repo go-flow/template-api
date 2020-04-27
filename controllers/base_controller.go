@@ -6,7 +6,7 @@ import (
 	"strings"
 
 	"github.com/go-flow/template-api/config"
-	"github.com/go-flow/template-api/models"
+	"github.com/go-flow/template-api/domain/models"
 
 	"github.com/go-flow/flow"
 	"github.com/go-playground/validator/v10"

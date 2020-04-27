@@ -3,7 +3,7 @@ package controllers
 import (
 	"github.com/go-flow/flow"
 	"github.com/go-flow/template-api/business"
-	"github.com/go-flow/template-api/models"
+	"github.com/go-flow/template-api/domain/models"
 	"github.com/go-flow/template-api/pkg/paging"
 )
 

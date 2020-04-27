@@ -38,7 +38,6 @@ e2e:
 
 .PHONY: swagger
 swagger:
-	rm -rf ./docs
 	swag init -g ./cmd/api/main.go
 
 .PHONY: build

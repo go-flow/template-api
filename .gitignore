@@ -1,12 +1,9 @@
 **/*.log
 .idea/
 bin/
+build/
 tmp/
 vendor/
-.env.*
-.env.e2e
-.env
-build/
 coverage.txt
 debug
 .vscode/
@@ -17,3 +14,9 @@ configmaps/
 owner.json
 *.exe
 *.env
+.env.*
+.env.e2e
+.env
+docs/docs.go
+docs/swagger.json
+docs/swagger.yaml

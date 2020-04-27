@@ -52,7 +52,7 @@ quickly:
 
 - **Overview of the Issue** - if an error is being thrown a non-minified stack trace helps
 - **Motivation for or Use Case** - explain why this is a bug for you
-- **ShoppieGo API Version(s)** - is it a regression?
+- **API Version(s)** - is it a regression?
 - **Browsers and Operating System** - is this a problem with all browsers or only specific ones?
 - **Reproduce the Error** - provide a live example or an unambiguous set of steps.
 - **Related Issues** - has a similar issue been reported before?

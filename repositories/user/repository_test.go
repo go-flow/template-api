@@ -1,39 +1,34 @@
-package repositories
+package user
 
 import (
 	"database/sql"
+	"database/sql/driver"
 	"regexp"
 	"testing"
 	"time"
 
 	"github.com/DATA-DOG/go-sqlmock"
 	"github.com/go-flow/template-api/db"
-	"github.com/go-flow/template-api/models"
+	"github.com/go-flow/template-api/domain/models"
 	"github.com/go-flow/template-api/pkg/paging"
+
 	"github.com/jinzhu/gorm"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 	"github.com/stretchr/testify/suite"
 )
 
-// NewUserRepositoryTestImpl returns
-func NewUserRepositoryTestImpl(db db.Store) UserRepository {
-	return &userRepository{
-		Store: db,
-	}
-}
-
-// UserRepositorySuite represents test suite for UserRepository interface
-type UserRepositorySuite struct {
+// RepositorySuite represents test suite for UserRepository interface
+type RepositorySuite struct {
 	suite.Suite
 	DB   db.Store
 	mock sqlmock.Sqlmock
 
-	repository UserRepository
+	repository *Repository
 }
 
 // SetupSuite configures suite for unit testing
-func (s *UserRepositorySuite) SetupSuite() {
+func (s *RepositorySuite) SetupSuite() {
 	var (
 		db  *sql.DB
 		err error
@@ -45,22 +40,24 @@ func (s *UserRepositorySuite) SetupSuite() {
 	s.DB, err = gorm.Open("mysql", db)
 	require.NoError(s.T(), err)
 
-	s.DB.LogMode(true)
+	//s.DB.LogMode(true)
 
-	s.repository = NewUserRepositoryTestImpl(s.DB)
+	s.repository = &Repository{
+		Store: s.DB,
+	}
 }
 
 // AfterTest ensures that all Test Suite expectations were met
-func (s *UserRepositorySuite) AfterTest(_, _ string) {
+func (s *RepositorySuite) AfterTest(_, _ string) {
 	require.NoError(s.T(), s.mock.ExpectationsWereMet())
 }
 
-//TestUserRepositorySuite is ure repository test suite runner
-func TestUserRepositorySuite(t *testing.T) {
-	suite.Run(t, new(UserRepositorySuite))
+//TestRepositorySuite is ure repository test suite runner
+func TestRepositorySuite(t *testing.T) {
+	suite.Run(t, new(RepositorySuite))
 }
 
-func (s *UserRepositorySuite) Test_GetByID() {
+func (s *RepositorySuite) Test_GetByID() {
 
 	insertTime := time.Now()
 	rows := sqlmock.NewRows([]string{"id", "first_name", "last_name", "profile_image", "email", "is_email_verified", "bio", "phone_number", "is_phone_verified", "country", "state", "area", "city", "address", "post_code", "is_active", "birth_date", "tos_accepted", "invited_by_user_id", "created_at", "updated_at", "deleted_at"}).
@@ -101,7 +98,7 @@ func (s *UserRepositorySuite) Test_GetByID() {
 	assert.Nil(s.T(), user.DeletedAt, "Expected user.DeletedAt to be `nil` got %v", user.DeletedAt)
 }
 
-func (s *UserRepositorySuite) Test_GetByEmail() {
+func (s *RepositorySuite) Test_GetByEmail() {
 
 	insertTime := time.Now()
 	rows := sqlmock.NewRows([]string{"id", "first_name", "last_name", "profile_image", "email", "is_email_verified", "bio", "phone_number", "is_phone_verified", "country", "state", "area", "city", "address", "post_code", "is_active", "birth_date", "tos_accepted", "invited_by_user_id", "created_at", "updated_at", "deleted_at"}).
@@ -142,7 +139,7 @@ func (s *UserRepositorySuite) Test_GetByEmail() {
 	assert.Nil(s.T(), user.DeletedAt, "Expected user.DeletedAt to be `nil` got %v", user.DeletedAt)
 }
 
-func (s *UserRepositorySuite) Test_GetAll() {
+func (s *RepositorySuite) Test_GetAll() {
 
 	insertTime := time.Now()
 	rows := sqlmock.NewRows([]string{"id", "first_name", "last_name", "profile_image", "email", "is_email_verified", "bio", "phone_number", "is_phone_verified", "country", "state", "area", "city", "address", "post_code", "is_active", "birth_date", "tos_accepted", "invited_by_user_id", "created_at", "updated_at", "deleted_at"}).
@@ -201,7 +198,7 @@ func (s *UserRepositorySuite) Test_GetAll() {
 	assert.Nil(s.T(), user.DeletedAt, "Expected user.DeletedAt to be `nil` got %v", user.DeletedAt)
 }
 
-func (s *UserRepositorySuite) Test_Create() {
+func (s *RepositorySuite) Test_Create() {
 	insertTime := time.Now()
 	// prepare model
 	user := &models.User{
@@ -241,7 +238,7 @@ func (s *UserRepositorySuite) Test_Create() {
 		WillReturnResult(sqlmock.NewResult(1, 1))
 	s.mock.ExpectCommit()
 
-	err := s.repository.Create(user)
+	err := s.repository.Save(user)
 	if err != nil {
 		s.Errorf(err, "unable to create user")
 	}
@@ -270,7 +267,7 @@ func (s *UserRepositorySuite) Test_Create() {
 	assert.Nil(s.T(), user.DeletedAt, "Expected user.DeletedAt to be `nil` got %v", user.DeletedAt)
 }
 
-func (s *UserRepositorySuite) Test_Update() {
+func (s *RepositorySuite) Test_Update() {
 	// prepare model
 	user := &models.User{
 		ID:        uint64(1),
@@ -312,7 +309,7 @@ func (s *UserRepositorySuite) Test_Update() {
 		WillReturnResult(sqlmock.NewResult(0, 1))
 	s.mock.ExpectCommit()
 
-	err := s.repository.Update(user)
+	err := s.repository.Save(user)
 	if err != nil {
 		s.Errorf(err, "unable to update user")
 	}
@@ -341,7 +338,7 @@ func (s *UserRepositorySuite) Test_Update() {
 	assert.Nil(s.T(), user.DeletedAt, "Expected user.DeletedAt to be `nil` got %v", user.DeletedAt)
 }
 
-func (s *UserRepositorySuite) Test_Delete() {
+func (s *RepositorySuite) Test_Delete() {
 	// prepare model
 	user := &models.User{
 		ID:        uint64(1),
@@ -366,4 +363,13 @@ func (s *UserRepositorySuite) Test_Delete() {
 	if err != nil {
 		s.Errorf(err, "unable to create user")
 	}
+}
+
+// AnyTime used to mock time object
+type AnyTime struct{}
+
+// Match satisfies sqlmock.Argument interface
+func (a AnyTime) Match(v driver.Value) bool {
+	_, ok := v.(time.Time)
+	return ok
 }

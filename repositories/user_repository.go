@@ -9,8 +9,6 @@ import (
 	"github.com/go-flow/template-api/pkg/paging"
 )
 
-var ()
-
 // UserRepository defines set of available operations around Users record
 type UserRepository interface {
 	// UserRepository ensures interface implementation
@@ -60,7 +58,7 @@ func (repo *userRepository) UserRepository() string {
 func (repo *userRepository) GetByID(id uint64) (*models.User, error) {
 	model := new(models.User)
 
-	tx := repo.Store.First(model, id)
+	tx := repo.Store.Where("id = ?", id).First(model)
 
 	return model, tx.Error
 }

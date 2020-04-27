@@ -27,6 +27,11 @@ type RepositorySuite struct {
 	repository *Repository
 }
 
+//TestRepositorySuite is ure repository test suite runner
+func TestRepositorySuite(t *testing.T) {
+	suite.Run(t, new(RepositorySuite))
+}
+
 // SetupSuite configures suite for unit testing
 func (s *RepositorySuite) SetupSuite() {
 	var (
@@ -50,11 +55,6 @@ func (s *RepositorySuite) SetupSuite() {
 // AfterTest ensures that all Test Suite expectations were met
 func (s *RepositorySuite) AfterTest(_, _ string) {
 	require.NoError(s.T(), s.mock.ExpectationsWereMet())
-}
-
-//TestRepositorySuite is ure repository test suite runner
-func TestRepositorySuite(t *testing.T) {
-	suite.Run(t, new(RepositorySuite))
 }
 
 func (s *RepositorySuite) Test_GetByID() {

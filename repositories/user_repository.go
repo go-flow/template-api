@@ -37,7 +37,7 @@ type UserRepository interface {
 	DeleteByID(id uint64) error
 }
 
-// NewUserRepository registers UserRepository interface implementation
+// NewUserRepository creates UserRepository interface implementation
 func NewUserRepository(app *flow.App) UserRepository {
 	return user.NewRepository(app)
 }

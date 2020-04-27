@@ -26,6 +26,8 @@ github.com/gin-gonic/gin v1.3.0/go.mod h1:7cKuhb5qV2ggCFctp2fJQ+ErvciLZrIeoOSOm6
 github.com/gin-gonic/gin v1.4.0/go.mod h1:OW2EZn3DO8Ln9oIKOvM++LBO+5UPHJJDH72/q/3rZdM=
 github.com/go-flow/flow v1.3.0 h1:3bpD9ztdveA5ORlfStGeFIst7OM0WByGtiiOLVqkuX4=
 github.com/go-flow/flow v1.3.0/go.mod h1:GzffrSensKkt3c8qK2bxuh2IdGw5bcYm5ADNP2QDAj0=
+github.com/go-flow/flow v1.3.1 h1:U4w8xAw1RpaEDj56n+NHhBDpQCBxLcR9dOsPpE7qyCg=
+github.com/go-flow/flow v1.3.1/go.mod h1:GzffrSensKkt3c8qK2bxuh2IdGw5bcYm5ADNP2QDAj0=
 github.com/go-flow/migrator v0.0.0-20190824120302-7acf401b4003 h1:24JK1fVvkjnayJfzr9eWh5Vq3vnqDC6tlBQezONhtk0=
 github.com/go-flow/migrator v0.0.0-20190824120302-7acf401b4003/go.mod h1:8NuxfTsiZYWavXOLwblF1L9HnpD0H/6+BKwmfqUKRgo=
 github.com/go-openapi/jsonpointer v0.17.0/go.mod h1:cOnomiV+CVVwFLk0A/MExoFMjwdsUdVpsRhURCKh+3M=

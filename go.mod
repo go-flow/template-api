@@ -5,7 +5,7 @@ go 1.14
 require (
 	github.com/DATA-DOG/go-sqlmock v1.4.1
 	github.com/alecthomas/template v0.0.0-20190718012654-fb15b899a751
-	github.com/go-flow/flow v1.3.0
+	github.com/go-flow/flow v1.3.1
 	github.com/go-flow/migrator v0.0.0-20190824120302-7acf401b4003
 	github.com/go-playground/validator/v10 v10.2.0
 	github.com/go-sql-driver/mysql v1.5.0

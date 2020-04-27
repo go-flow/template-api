@@ -43,7 +43,6 @@ swagger:
 
 .PHONY: build
 build: 
-	make swagger
 	CGO_ENABLED=0 $(GO) build -installsuffix 'static' -ldflags "-X main.Version=`date -u +1.%Y%m%d.%H%M%S`" -o ./build/api ./cmd/api
 
 .PHONY: run

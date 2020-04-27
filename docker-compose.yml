@@ -24,7 +24,7 @@ services:
       context: .
       dockerfile: Dockerfile
     image: template-api
-    command: /bin/sh -c "/usr/api"
+    command: /bin/sh -c "sleep 30; /usr/api"
     ports:
       - "80:5000"
     env_file: .env

@@ -1,6 +1,6 @@
-# Contributing to Detoxy Evaluation API
+# Contributing to Template API
 
-We'd love for you to contribute to our source code and to make Detoxy Evaluation API even better than it is
+We'd love for you to contribute to our source code and to make Template API even better than it is
 today! Here are the guidelines we'd like you to follow:
 
 - [Code of Conduct](#coc)
